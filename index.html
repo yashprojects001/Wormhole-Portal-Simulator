@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Wormhole Portal Simulator</title>
+
+<style>
+
+body{
+margin:0;
+background:black;
+overflow:hidden;
+font-family:Arial;
+color:white;
+}
+
+h1{
+position:absolute;
+top:20px;
+left:50%;
+transform:translateX(-50%);
+z-index:10;
+}
+
+canvas{
+display:block;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>🌀 Wormhole Portal Simulator</h1>
+
+<canvas id="wormhole"></canvas>
+
+<script>
+
+const canvas=document.getElementById("wormhole");
+const ctx=canvas.getContext("2d");
+
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let stars=[];
+
+/* CREATE STARFIELD */
+
+for(let i=0;i<900;i++){
+
+stars.push({
+x:(Math.random()-0.5)*canvas.width,
+y:(Math.random()-0.5)*canvas.height,
+z:Math.random()*canvas.width
+});
+
+}
+
+/* MAIN DRAW LOOP */
+
+function draw(){
+
+ctx.fillStyle="black";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+
+let cx=canvas.width/2;
+let cy=canvas.height/2;
+
+/* STAR WARP EFFECT */
+
+stars.forEach(s=>{
+
+s.z-=6;
+
+if(s.z<=0){
+s.z=canvas.width;
+}
+
+let k=140/s.z;
+let x=s.x*k+cx;
+let y=s.y*k+cy;
+
+let size=(1-s.z/canvas.width)*4;
+
+ctx.beginPath();
+ctx.arc(x,y,size,0,Math.PI*2);
+ctx.fillStyle="white";
+ctx.fill();
+
+});
+
+/* OUTER WORMHOLE GLOW */
+
+let glow=ctx.createRadialGradient(cx,cy,20,cx,cy,260);
+
+glow.addColorStop(0,"rgba(180,0,255,0.8)");
+glow.addColorStop(0.3,"rgba(0,180,255,0.6)");
+glow.addColorStop(0.6,"rgba(0,255,255,0.3)");
+glow.addColorStop(1,"rgba(0,0,0,0)");
+
+ctx.beginPath();
+ctx.arc(cx,cy,260,0,Math.PI*2);
+ctx.fillStyle=glow;
+ctx.fill();
+
+/* INNER PORTAL CORE */
+
+let core=ctx.createRadialGradient(cx,cy,0,cx,cy,120);
+
+core.addColorStop(0,"white");
+core.addColorStop(0.2,"cyan");
+core.addColorStop(0.4,"blue");
+core.addColorStop(0.8,"purple");
+core.addColorStop(1,"transparent");
+
+ctx.beginPath();
+ctx.arc(cx,cy,120,0,Math.PI*2);
+ctx.fillStyle=core;
+ctx.fill();
+
+/* ENERGY RINGS */
+
+for(let i=0;i<5;i++){
+
+ctx.beginPath();
+ctx.arc(cx,cy,150+i*20,0,Math.PI*2);
+
+ctx.strokeStyle="rgba(120,200,255,0.15)";
+ctx.lineWidth=2;
+ctx.stroke();
+
+}
+
+/* SPIRAL ENERGY LINES */
+
+for(let i=0;i<12;i++){
+
+let angle=(Date.now()*0.001+i)*0.6;
+
+let r=200;
+
+let x=cx+Math.cos(angle)*r;
+let y=cy+Math.sin(angle)*r;
+
+ctx.beginPath();
+ctx.moveTo(cx,cy);
+ctx.lineTo(x,y);
+
+ctx.strokeStyle="rgba(0,255,255,0.05)";
+ctx.stroke();
+
+}
+
+requestAnimationFrame(draw);
+
+}
+
+draw();
+
+/* USER INTERACTION: INCREASE WARP SPEED */
+
+canvas.onclick=function(){
+
+for(let i=0;i<200;i++){
+
+stars.push({
+x:(Math.random()-0.5)*canvas.width,
+y:(Math.random()-0.5)*canvas.height,
+z:Math.random()*canvas.width
+});
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
