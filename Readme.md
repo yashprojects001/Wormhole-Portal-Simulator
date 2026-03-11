@@ -90,29 +90,6 @@ Wormhole-Portal-Simulator
 The entire simulation runs in a **single HTML file**.
 
 ---
-
-# ▶ How to Run the Project
-
-1️⃣ Download or clone the repository
-
-```bash id="o7rs1c"
-git clone https://github.com/yourusername/wormhole-portal-simulator.git
-```
-
-2️⃣ Open the project folder
-
-3️⃣ Launch the simulator
-
-```bash id="s1t0p9"
-index.html
-```
-
-Open the file in any modern web browser.
-
-No installation or server required.
-
----
-
 # 🎮 How to Use
 
 • Open the simulator in your browser
@@ -156,3 +133,4 @@ This project is open source and intended for **learning and educational purposes
 If you like this project, consider giving it a **⭐ star on GitHub**.
 
 Your support helps encourage more **space and simulation projects on the web**.
+
